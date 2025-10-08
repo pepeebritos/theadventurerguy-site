@@ -142,7 +142,7 @@ export default function PrivacyPolicyModal({ isOpen, onClose }: PrivacyPolicyMod
             </section>
 
             <section>
-              <h3 className="font-semibold text-xl mb-4 text-neutral-800">8. Children's Privacy</h3>
+              <h3 className="font-semibold text-xl mb-4 text-neutral-800">8. Children&apos;s Privacy</h3>
               <p>
                 Our website is not intended for children under 13 years of age. We do not knowingly collect 
                 personal information from children under 13. If you become aware that a child has provided us 

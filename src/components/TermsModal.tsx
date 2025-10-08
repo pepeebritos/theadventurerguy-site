@@ -32,7 +32,7 @@ export default function TermsModal({ isOpen, onClose }: TermsModalProps) {
             <section>
               <h3 className="font-semibold text-xl mb-4 text-neutral-800">1. Acceptance of Terms</h3>
               <p>
-                By accessing and using The Adventurer Guy website (the "Website"), you accept and agree to be bound by 
+                By accessing and using The Adventurer Guy website (the &quot;Website&quot;), you accept and agree to be bound by 
                 the terms and provision of this agreement. If you do not agree to abide by the above, please do not 
                 use this service.
               </p>
