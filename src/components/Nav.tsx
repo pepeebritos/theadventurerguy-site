@@ -30,6 +30,7 @@ export default function Nav() {
   const [activeSection, setActiveSection] = useState("home");
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
   const linksRef = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (!isHomePage) return;
@@ -114,7 +115,23 @@ export default function Nav() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 pt-[var(--safe-top)]">
       <div className="mx-auto max-w-6xl px-4">
-        <nav className="mt-4 flex items-center justify-center px-2 py-2">
+        <nav className="mt-4 flex items-center justify-between md:justify-center px-2 py-2">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden text-black hover:text-neutral-600 transition-colors z-50"
+            aria-label="Toggle menu"
+          >
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {mobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+
+          {/* Desktop Menu */}
           <ul className="hidden md:flex gap-6 text-base font-bold relative group">
             {isHomePage ? (
               <>
@@ -159,6 +176,42 @@ export default function Nav() {
               })
             )}
           </ul>
+
+          {/* Mobile Menu Overlay */}
+          {mobileMenuOpen && (
+            <div className="md:hidden fixed inset-0 bg-black/95 z-40 pt-20">
+              <ul className="flex flex-col items-center justify-center h-full gap-8 text-2xl font-bold">
+                {isHomePage ? (
+                  homeFragmentLinks.map((l) => (
+                    <li key={l.href}>
+                      <a
+                        href={l.href}
+                        onClick={(e) => {
+                          handleFragmentClick(e, l.href);
+                          setMobileMenuOpen(false);
+                        }}
+                        className="text-white hover:text-neutral-300 transition-colors cursor-pointer"
+                      >
+                        {l.label}
+                      </a>
+                    </li>
+                  ))
+                ) : (
+                  pageLinks.map((l) => (
+                    <li key={l.href}>
+                      <Link
+                        href={l.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="text-white hover:text-neutral-300 transition-colors"
+                      >
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))
+                )}
+              </ul>
+            </div>
+          )}
         </nav>
       </div>
     </header>
