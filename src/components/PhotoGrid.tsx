@@ -113,7 +113,9 @@ export default function PhotoGrid() {
             return (
               <button
                 key={index}
-                ref={(el) => (photoRefs.current[index] = el)}
+                ref={(el) => {
+                  photoRefs.current[index] = el;
+                }}
                 onClick={() => setSelectedPhoto(photo)}
                 className={`relative overflow-hidden rounded-lg bg-neutral-200 transition-all duration-700 hover:scale-110 hover:z-20 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-[var(--accent)] aspect-square transform ${
                   isVisible 
