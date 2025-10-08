@@ -32,7 +32,7 @@ export default function PrivacyPolicyModal({ isOpen, onClose }: PrivacyPolicyMod
             <section>
               <h3 className="font-semibold text-xl mb-4 text-neutral-800">1. Introduction</h3>
               <p>
-                Welcome to The Adventurer Guy website (the "Website"). Pedro Britos ("we," "our," or "us") 
+                Welcome to The Adventurer Guy website (the &quot;Website&quot;). Pedro Britos (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) 
                 respects your privacy and is committed to protecting your personal information. This Privacy Policy 
                 explains how we collect, use, disclose, and safeguard your information when you visit our website.
               </p>
@@ -67,7 +67,7 @@ export default function PrivacyPolicyModal({ isOpen, onClose }: PrivacyPolicyMod
                 <li>To respond to your inquiries and provide customer support</li>
                 <li>To improve our website functionality and user experience</li>
                 <li>To analyze website traffic and user behavior patterns</li>
-                <li>To send periodic emails (only if you've opted in)</li>
+                <li>To send periodic emails (only if you&apos;ve opted in)</li>
                 <li>To comply with legal obligations and protect our rights</li>
                 <li>To prevent fraud and ensure website security</li>
               </ul>
@@ -162,7 +162,7 @@ export default function PrivacyPolicyModal({ isOpen, onClose }: PrivacyPolicyMod
               <h3 className="font-semibold text-xl mb-4 text-neutral-800">10. Changes to This Privacy Policy</h3>
               <p>
                 We may update this Privacy Policy from time to time. We will notify you of any changes by posting 
-                the new Privacy Policy on this page and updating the "Last Updated" date. You are advised to review 
+                the new Privacy Policy on this page and updating the &quot;Last Updated&quot; date. You are advised to review 
                 this Privacy Policy periodically for any changes.
               </p>
             </section>

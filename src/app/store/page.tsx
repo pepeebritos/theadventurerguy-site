@@ -20,7 +20,7 @@ export default function StorePage() {
           </h1>
           
           <p className="text-xl text-white/80 mb-8 leading-relaxed">
-            I'm working on something special for you. The store will feature curated gear, prints, and exclusive content from my adventures.
+            I&apos;m working on something special for you. The store will feature curated gear, prints, and exclusive content from my adventures.
           </p>
 
           {/* Decorative Line */}

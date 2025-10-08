@@ -106,7 +106,7 @@ export default function Home() {
               </h3>
               
               <p className="text-xl text-neutral-700 leading-relaxed max-w-2xl mx-auto">
-                I'm working on something special for you. The store will feature curated gear, prints, and exclusive content from my adventures.
+                I&apos;m working on something special for you. The store will feature curated gear, prints, and exclusive content from my adventures.
               </p>
             </div>
           </div>

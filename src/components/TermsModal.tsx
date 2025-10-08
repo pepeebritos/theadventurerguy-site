@@ -57,7 +57,7 @@ export default function TermsModal({ isOpen, onClose }: TermsModalProps) {
               <h3 className="font-semibold text-xl mb-4 text-neutral-800">3. Intellectual Property Rights</h3>
               <p className="mb-3">
                 All content on this website, including but not limited to text, graphics, logos, images, photographs, 
-                videos, and software, is the property of Pedro Britos ("The Adventurer Guy") and is protected by 
+                videos, and software, is the property of Pedro Britos (&quot;The Adventurer Guy&quot;) and is protected by 
                 copyright, trademark, and other intellectual property laws.
               </p>
               <p className="mb-3">
@@ -116,7 +116,7 @@ export default function TermsModal({ isOpen, onClose }: TermsModalProps) {
             <section>
               <h3 className="font-semibold text-xl mb-4 text-neutral-800">8. Disclaimer</h3>
               <p className="mb-3">
-                The materials on The Adventurer Guy website are provided on an 'as is' basis. The Adventurer Guy 
+                The materials on The Adventurer Guy website are provided on an &apos;as is&apos; basis. The Adventurer Guy 
                 makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties 
                 including without limitation, implied warranties or conditions of merchantability, fitness for a 
                 particular purpose, or non-infringement of intellectual property or other violation of rights.
