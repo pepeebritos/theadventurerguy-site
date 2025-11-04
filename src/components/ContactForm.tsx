@@ -56,6 +56,28 @@ export default function ContactForm() {
               </svg>
               <span className="font-medium">Instagram</span>
             </a>
+            <a 
+              href="https://www.tiktok.com/@theadventurerguy" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center text-neutral-700 hover:text-black transition-colors group"
+            >
+              <svg className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+              </svg>
+              <span className="font-medium">TikTok</span>
+            </a>
+            <a 
+              href="https://www.alltrails.com/members/pedro-britos" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center text-neutral-700 hover:text-green-600 transition-colors group"
+            >
+              <svg className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+              </svg>
+              <span className="font-medium">AllTrails</span>
+            </a>
           </div>
         </div>
 

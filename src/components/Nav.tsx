@@ -19,6 +19,7 @@ const homeFragmentLinks = [
   { href: "#bio", label: "Bio" },
   { href: "#photos", label: "Photos" },
   { href: "#latest-video", label: "Films" },
+  { href: "#guides", label: "Guides" },
   { href: "#gear", label: "My Gear" },
   { href: "#store", label: "Store" },
   { href: "#contact", label: "Contact" },
@@ -35,7 +36,7 @@ export default function Nav() {
   useEffect(() => {
     if (!isHomePage) return;
 
-    const sectionIds = ["home", "bio", "photos", "latest-video", "gear", "store", "contact"];
+    const sectionIds = ["home", "bio", "photos", "latest-video", "guides", "gear", "store", "contact"];
     
     const observer = new IntersectionObserver(
       (entries) => {
