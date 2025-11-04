@@ -20,9 +20,9 @@ export default function Home() {
               { src: "/videos/hero3.mp4", poster: "/videos/hero3.jpg" },
             ]}
             mobileVideos={[
-              { src: "/videos/mobile-hero1.mp4", poster: "/videos/mobile-hero1.jpg" },
-              { src: "/videos/mobile-hero2.mp4", poster: "/videos/mobile-hero2.jpg" },
-              { src: "/videos/mobile-hero3.mp4", poster: "/videos/mobile-hero3.jpg" },
+              { src: "/videos/mobile-hero1.mp4", poster: "" },
+              { src: "/videos/mobile-hero2.mp4", poster: "" },
+              { src: "/videos/mobile-hero3.mp4", poster: "" },
             ]}
             title=""
             subtitle=""

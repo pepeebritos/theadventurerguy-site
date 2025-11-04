@@ -113,7 +113,7 @@ export default function HomeHero({ videos, mobileVideos, title, subtitle, contai
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
             index === currentVideoIndex ? 'opacity-100' : 'opacity-0'
           }`}
-          poster={video.poster}
+          poster={video.poster || undefined}
           muted
           loop
           playsInline
