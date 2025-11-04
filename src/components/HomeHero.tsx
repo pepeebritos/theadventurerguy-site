@@ -19,19 +19,31 @@ export default function HomeHero({ videos, mobileVideos, title, subtitle, contai
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [showTitle, setShowTitle] = useState(false);
   const [showSubtitle, setShowSubtitle] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  // Initialize with mobile detection to avoid flash of desktop videos
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    }
+    return false;
+  });
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   // Detect mobile screen size
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768); // 768px is typical tablet breakpoint
+      const width = window.innerWidth < 768;
+      const userAgent = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      setIsMobile(width || userAgent);
     };
     
     checkMobile();
     window.addEventListener('resize', checkMobile);
+    window.addEventListener('orientationchange', checkMobile);
     
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('orientationchange', checkMobile);
+    };
   }, []);
 
   // Use mobile videos if available and on mobile, otherwise use desktop videos
@@ -68,10 +80,12 @@ export default function HomeHero({ videos, mobileVideos, title, subtitle, contai
     return () => clearInterval(interval);
   }, [activeVideos.length]);
 
-  // Reset video index when switching between mobile/desktop
+  // Reset video index and refs when switching between mobile/desktop
   useEffect(() => {
     setCurrentVideoIndex(0);
-  }, [isMobile]);
+    // Clear video refs when switching
+    videoRefs.current = [];
+  }, [isMobile, activeVideos]);
 
   useEffect(() => {
     // Play the current video and pause others
@@ -92,7 +106,7 @@ export default function HomeHero({ videos, mobileVideos, title, subtitle, contai
       {/* Video backgrounds with crossfade */}
       {activeVideos.map((video, index) => (
         <video
-          key={index}
+          key={`${isMobile ? 'mobile' : 'desktop'}-${video.src}-${index}`}
           ref={(el) => {
             videoRefs.current[index] = el;
           }}
@@ -103,6 +117,7 @@ export default function HomeHero({ videos, mobileVideos, title, subtitle, contai
           muted
           loop
           playsInline
+          preload="auto"
         >
           <source src={video.src} type={video.src.endsWith('.mov') ? 'video/quicktime' : 'video/mp4'} />
         </video>
