@@ -26,7 +26,6 @@ export default function HomeHero({ videos, mobileVideos, title, subtitle, contai
     }
     return false;
   });
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   // Detect mobile screen size
   useEffect(() => {
@@ -46,8 +45,6 @@ export default function HomeHero({ videos, mobileVideos, title, subtitle, contai
     };
   }, []);
 
-  // Use mobile videos if available and on mobile, otherwise use desktop videos
-  const activeVideos = (isMobile && mobileVideos && mobileVideos.length > 0) ? mobileVideos : videos;
 
   // Fade-in title effect with delay
   useEffect(() => {
@@ -69,59 +66,94 @@ export default function HomeHero({ videos, mobileVideos, title, subtitle, contai
     }
   }, [showTitle]);
 
+  // Determine which videos to cycle through
+  const videosToCycle = (isMobile && mobileVideos && mobileVideos.length > 0) ? mobileVideos : videos;
+
   useEffect(() => {
-    if (activeVideos.length <= 1) return;
+    if (videosToCycle.length <= 1) return;
 
     // Auto-cycle through videos every 5 seconds
     const interval = setInterval(() => {
-      setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % activeVideos.length);
+      setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videosToCycle.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [activeVideos.length]);
+  }, [videosToCycle.length]);
 
-  // Reset video index and refs when switching between mobile/desktop
+  // Reset video index when switching between mobile/desktop
   useEffect(() => {
     setCurrentVideoIndex(0);
-    // Clear video refs when switching
-    videoRefs.current = [];
-  }, [isMobile, activeVideos]);
+  }, [isMobile]);
+
+
+  // Separate refs for desktop and mobile videos
+  const desktopVideoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const mobileVideoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // Use appropriate refs based on screen size
+  const activeRefs = isMobile && mobileVideos && mobileVideos.length > 0 ? mobileVideoRefs : desktopVideoRefs;
 
   useEffect(() => {
     // Play the current video and pause others
-    videoRefs.current.forEach((video, index) => {
+    activeRefs.current.forEach((video, index) => {
       if (video) {
         if (index === currentVideoIndex) {
-          video.currentTime = 0; // Reset to beginning
+          video.currentTime = 0;
           video.play().catch(console.error);
         } else {
           video.pause();
         }
       }
     });
-  }, [currentVideoIndex]);
+  }, [currentVideoIndex, activeRefs]);
 
   return (
     <div className="relative h-screen w-full overflow-hidden">
-      {/* Video backgrounds with crossfade */}
-      {activeVideos.map((video, index) => (
-        <video
-          key={`${isMobile ? 'mobile' : 'desktop'}-${video.src}-${index}`}
-          ref={(el) => {
-            videoRefs.current[index] = el;
-          }}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
-            index === currentVideoIndex ? 'opacity-100' : 'opacity-0'
-          }`}
-          poster={video.poster || undefined}
-          muted
-          loop
-          playsInline
-          preload="auto"
-        >
-          <source src={video.src} type={video.src.endsWith('.mov') ? 'video/quicktime' : 'video/mp4'} />
-        </video>
-      ))}
+      {/* Desktop Videos - Hidden on mobile */}
+      <div className="hidden md:block">
+        {videos.map((video, index) => (
+          <video
+            key={`desktop-${video.src}-${index}`}
+            ref={(el) => {
+              desktopVideoRefs.current[index] = el;
+            }}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
+              !isMobile && index === currentVideoIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+            poster={video.poster || undefined}
+            muted
+            loop
+            playsInline
+            preload="auto"
+          >
+            <source src={video.src} type={video.src.endsWith('.mov') ? 'video/quicktime' : 'video/mp4'} />
+          </video>
+        ))}
+      </div>
+
+      {/* Mobile Videos - Visible only on mobile */}
+      {mobileVideos && mobileVideos.length > 0 && (
+        <div className="block md:hidden">
+          {mobileVideos.map((video, index) => (
+            <video
+              key={`mobile-${video.src}-${index}`}
+              ref={(el) => {
+                mobileVideoRefs.current[index] = el;
+              }}
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
+                isMobile && index === currentVideoIndex ? 'opacity-100' : 'opacity-0'
+              }`}
+              poster={video.poster || undefined}
+              muted
+              loop
+              playsInline
+              preload="auto"
+            >
+              <source src={video.src} type={video.src.endsWith('.mov') ? 'video/quicktime' : 'video/mp4'} />
+            </video>
+          ))}
+        </div>
+      )}
 
 
       {/* Content */}
