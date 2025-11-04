@@ -9,16 +9,33 @@ interface VideoItem {
 
 interface HomeHeroProps {
   videos: VideoItem[];
+  mobileVideos?: VideoItem[];
   title: string;
   subtitle: string;
   containerId: string;
 }
 
-export default function HomeHero({ videos, title, subtitle, containerId }: HomeHeroProps) {
+export default function HomeHero({ videos, mobileVideos, title, subtitle, containerId }: HomeHeroProps) {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [showTitle, setShowTitle] = useState(false);
   const [showSubtitle, setShowSubtitle] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // 768px is typical tablet breakpoint
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Use mobile videos if available and on mobile, otherwise use desktop videos
+  const activeVideos = (isMobile && mobileVideos && mobileVideos.length > 0) ? mobileVideos : videos;
 
   // Fade-in title effect with delay
   useEffect(() => {
@@ -41,15 +58,20 @@ export default function HomeHero({ videos, title, subtitle, containerId }: HomeH
   }, [showTitle]);
 
   useEffect(() => {
-    if (videos.length <= 1) return;
+    if (activeVideos.length <= 1) return;
 
     // Auto-cycle through videos every 5 seconds
     const interval = setInterval(() => {
-      setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length);
+      setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % activeVideos.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [videos.length]);
+  }, [activeVideos.length]);
+
+  // Reset video index when switching between mobile/desktop
+  useEffect(() => {
+    setCurrentVideoIndex(0);
+  }, [isMobile]);
 
   useEffect(() => {
     // Play the current video and pause others
@@ -68,7 +90,7 @@ export default function HomeHero({ videos, title, subtitle, containerId }: HomeH
   return (
     <div className="relative h-screen w-full overflow-hidden">
       {/* Video backgrounds with crossfade */}
-      {videos.map((video, index) => (
+      {activeVideos.map((video, index) => (
         <video
           key={index}
           ref={(el) => {
@@ -82,7 +104,7 @@ export default function HomeHero({ videos, title, subtitle, containerId }: HomeH
           loop
           playsInline
         >
-          <source src={video.src} type="video/mp4" />
+          <source src={video.src} type={video.src.endsWith('.mov') ? 'video/quicktime' : 'video/mp4'} />
         </video>
       ))}
 
