@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface YouTubeVideoProps {
   videoId: string;
@@ -18,11 +18,24 @@ export default function YouTubeVideo({
   className = "" 
 }: YouTubeVideoProps) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // On mobile, don't autoplay - show thumbnail instead
+  const shouldShowThumbnail = thumbnail || (isMobile && !isPlaying);
+  
+  const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=${isMobile ? 0 : 1}&rel=0&modestbranding=1`;
   const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
-  if (thumbnail && !isPlaying) {
+  if (shouldShowThumbnail) {
     return (
       <div className={`relative group cursor-pointer ${className}`} onClick={() => setIsPlaying(true)}>
         <div className="relative overflow-hidden rounded-lg aspect-video bg-neutral-800">
